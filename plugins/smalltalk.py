@@ -3,6 +3,7 @@
 #by Joh Gerna
 
 from plugin import *
+import random
 
 class smalltalk(Plugin):
     
@@ -32,7 +33,7 @@ class smalltalk(Plugin):
         else:
             self.say("Fine, thanks for asking!")
         self.complete_request()
-        
+		
     @register("de-DE", ".*Danke.*")
     @register("en-US", ".*Thank.*you.*")
     def st_thank_you(self, speech, language):
@@ -372,13 +373,44 @@ class smalltalk(Plugin):
         if language == 'en-US':
             self.say("LOL")
         self.complete_request()
-    
+    @register("en-US", ".*please.test.*")
+    def st_test_out(self, speech, language):
+        if language == 'en-US':
+            self.say("I am testing this recognition")
+        self.complete_request()
+
     @register("en-US",".*guess.what.*")
     def st_guess_what(self, speech, language):
         if language == 'en-US':
             self.say("Don't tell me... you were just elected President of the United States, right?")
         self.complete_request()
-    
+
+    @register("en-US",".*random.number.*")
+    def st_random_number(self, speech, language):
+        if language == 'en-US':
+			if "between" in speech:
+				(_, _, speechout) = speech.partition("between")
+				if "and" in speechout:
+					(numone, _, numtwo) = speechout.partition("and")
+					self.say(str(random.randint(int(numone),int(numtwo))))
+				else:
+					self.say(str(random.randint(1,1000)))
+			else:
+				self.say(str(random.randint(1,1000)))
+        self.complete_request()
+
+	@register("en-US",".*correct*")
+	def st_iwon(self, speech, language):
+		if language == 'en-US':
+			self.say("Am I ever incorrect?")
+        self.complete_request()
+		
+    @register("en-US",".*best.computer*")
+    def st_troll_apple(self, speech, language):
+        if language == 'en-US':
+            self.say("Anything that is not made by Apple")
+        self.complete_request()
+
     @register("en-US",".*talk.*dirty.*me.*")
     def st_talk_dirty(self, speech, language):
         if language == 'en-US':
